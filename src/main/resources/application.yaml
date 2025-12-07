@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: book-embedding-worker
