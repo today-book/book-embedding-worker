@@ -9,13 +9,14 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   ai:
-    vertex.ai:
-      embedding:
-        project-id: todaybook-479908
-        location: us-central1
-        text:
-          options:
-            model: gemini-embedding-001
+    vertex:
+      ai:
+        embedding:
+          project-id: todaybook-479908
+          location: us-central1
+          text:
+            options:
+              model: gemini-embedding-001
     vectorstore:
       opensearch:
         uris: http://localhost:9200
