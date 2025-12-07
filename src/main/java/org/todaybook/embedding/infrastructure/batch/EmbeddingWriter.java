@@ -16,7 +16,7 @@ public class EmbeddingWriter implements ItemWriter<VectorBook> {
   private final VectorService vectorService;
 
   @Override
-  public void write(Chunk<? extends VectorBook> items) throws Exception {
+  public void write(Chunk<? extends VectorBook> items) {
     List<String> ids = items.getItems().stream()
         .map(item -> item.id().toString())
         .toList();

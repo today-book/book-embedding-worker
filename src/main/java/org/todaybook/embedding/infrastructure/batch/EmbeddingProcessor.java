@@ -14,7 +14,7 @@ import org.todaybook.embedding.domain.VectorBook;
 public class EmbeddingProcessor implements ItemProcessor<Book, VectorBook> {
 
   @Override
-  public VectorBook process(Book item) throws Exception {
+  public VectorBook process(Book item) {
     return new VectorBook(
         item.id(),
         getContent(item),
