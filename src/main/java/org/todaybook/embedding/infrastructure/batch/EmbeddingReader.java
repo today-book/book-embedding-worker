@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch.config;
+package org.todaybook.embedding.infrastructure.batch;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -18,7 +18,7 @@ import org.todaybook.embedding.infrastructure.batch.service.JobExecutionService;
 
 @Configuration
 @RequiredArgsConstructor
-public class EmbeddingReaderConfig {
+public class EmbeddingReader {
 
   private static final LocalDateTime INITIAL_TIME = LocalDateTime.of(1970, 1, 1, 0, 0);
 

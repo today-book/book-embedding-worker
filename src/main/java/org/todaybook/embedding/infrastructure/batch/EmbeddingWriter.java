@@ -1,6 +1,5 @@
-package org.todaybook.embedding.infrastructure.batch.config;
+package org.todaybook.embedding.infrastructure.batch;
 
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.document.Document;

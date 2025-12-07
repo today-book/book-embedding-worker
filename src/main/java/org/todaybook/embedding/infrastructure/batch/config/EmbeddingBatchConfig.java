@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.VectorBook;
+import org.todaybook.embedding.infrastructure.batch.EmbeddingProcessor;
+import org.todaybook.embedding.infrastructure.batch.EmbeddingWriter;
 
 @Configuration
 @EnableBatchProcessing
