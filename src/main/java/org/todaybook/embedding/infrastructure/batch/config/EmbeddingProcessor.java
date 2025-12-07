@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.stereotype.Component;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.VectorBook;
 
+@Component
 @RequiredArgsConstructor
 public class EmbeddingProcessor implements ItemProcessor<Book, VectorBook> {
 

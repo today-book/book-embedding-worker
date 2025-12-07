@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ai.document.Document;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.stereotype.Component;
 import org.todaybook.embedding.infrastructure.vector.service.VectorService;
 import org.todaybook.embedding.domain.VectorBook;
 
+@Component
 @RequiredArgsConstructor
 public class EmbeddingWriter implements ItemWriter<VectorBook> {
 
