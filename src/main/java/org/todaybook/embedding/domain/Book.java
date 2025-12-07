@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch.dto;
+package org.todaybook.embedding.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

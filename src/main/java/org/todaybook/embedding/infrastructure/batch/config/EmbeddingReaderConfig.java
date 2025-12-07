@@ -1,8 +1,6 @@
 package org.todaybook.embedding.infrastructure.batch.config;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +12,8 @@ import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuild
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.todaybook.embedding.infrastructure.batch.dto.Book;
-import org.todaybook.embedding.infrastructure.batch.dto.BookMapper;
+import org.todaybook.embedding.domain.Book;
+import org.todaybook.embedding.domain.BookMapper;
 import org.todaybook.embedding.infrastructure.batch.service.JobExecutionService;
 
 @Configuration
