@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch.config;
+package org.todaybook.embedding.infrastructure.batch;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

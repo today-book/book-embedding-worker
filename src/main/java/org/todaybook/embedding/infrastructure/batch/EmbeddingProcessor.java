@@ -41,7 +41,6 @@ public class EmbeddingProcessor implements ItemProcessor<Book, VectorBook> {
     metadata.put("author", book.author());
     metadata.put("categories", book.categories() != null ? book.categories() : List.of());
 
-
     return metadata;
   }
 }
