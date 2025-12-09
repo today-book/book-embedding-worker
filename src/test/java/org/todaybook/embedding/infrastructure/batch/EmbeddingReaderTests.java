@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch.config;
+package org.todaybook.embedding.infrastructure.batch;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,17 +16,19 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.todaybook.embedding.config.TestContainersConfig;
-import org.todaybook.embedding.config.TestSpringAiConfig;
 import org.todaybook.embedding.domain.Book;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Import({TestContainersConfig.class, TestSpringAiConfig.class})
-@Sql({"/org/springframework/batch/core/schema-postgresql.sql", "classpath:sql/init.sql", "classpath:sql/book-data.sql"})
+@Import({TestContainersConfig.class})
+@Sql({
+  "/org/springframework/batch/core/schema-postgresql.sql",
+  "classpath:sql/init.sql",
+  "classpath:sql/book-data.sql"
+})
 class EmbeddingReaderTests {
 
-  @Autowired
-  private JdbcPagingItemReader<Book> reader;
+  @Autowired private JdbcPagingItemReader<Book> reader;
 
   @BeforeEach
   void setup() throws Exception {
