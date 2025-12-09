@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VectorServiceImpl implements VectorService {
+public class VectorStoreServiceImpl implements VectorStoreService {
 
   private final VectorStore vectorStore;
 

@@ -37,24 +37,31 @@ public class OpensearchUpsertServiceImpl implements OpensearchUpsertService {
   @Override
   public void upsert(List<Document> documents) {
     try {
-      BulkResponse response = client.bulk(
-          b -> {
-            for (Document document : documents) {
-              String id = document.getId();
-              Map<String, Object> doc = mapper.fromDocument(document);
+      BulkResponse response =
+          client.bulk(
+              b -> {
+                for (Document document : documents) {
+                  String id = document.getId();
+                  Map<String, Object> doc = mapper.fromDocument(document);
 
-              b.operations(
-                  op -> op.update(u -> u.index(index).id(id).document(doc).docAsUpsert(true)));
-            }
-            return b;
-          });
+                  b.operations(
+                      op -> op.update(u -> u.index(index).id(id).document(doc).docAsUpsert(true)));
+                }
+                return b;
+              });
 
       if (response.errors()) {
-        response.items().forEach(item -> {
-          if (item.error() != null) {
-            log.warn("[TODAY-BOOK] OpenSearch Bulk 수정 일부 실패 (id={}, reason={})", item.id(), item.error());
-          }
-        });
+        response
+            .items()
+            .forEach(
+                item -> {
+                  if (item.error() != null) {
+                    log.warn(
+                        "[TODAY-BOOK] OpenSearch Bulk 수정 일부 실패 (id={}, reason={})",
+                        item.id(),
+                        item.error());
+                  }
+                });
       }
     } catch (Exception e) {
       throw new OpensearchInternalServerException(
