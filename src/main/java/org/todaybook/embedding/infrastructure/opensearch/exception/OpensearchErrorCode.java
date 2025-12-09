@@ -10,6 +10,8 @@ import org.todaybook.commoncore.error.ErrorCode;
 public enum OpensearchErrorCode implements ErrorCode {
   INTERNAL_SERVER_ERROR(
       "OPENSEARCH.INTERNAL_SERVER_ERROR", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+  NULL_PARAMETER("OPENSEARCH.NULL_PARAMETER", HttpStatus.BAD_REQUEST.value()),
+  INVALID_DOCUMENT("OPENSEARCH.INVALID_DOCUMENT", HttpStatus.BAD_REQUEST.value()),
   ;
 
   private final String code;

@@ -8,7 +8,7 @@ import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 import org.todaybook.embedding.domain.VectorBook;
-import org.todaybook.embedding.application.service.EmbeddingService;
+import org.todaybook.embedding.infrastructure.opensearch.service.OpensearchQueryService;
 import org.todaybook.embedding.infrastructure.vectorstore.service.VectorService;
 
 @Slf4j
@@ -17,7 +17,7 @@ import org.todaybook.embedding.infrastructure.vectorstore.service.VectorService;
 public class EmbeddingWriter implements ItemWriter<VectorBook> {
 
   private final VectorService vectorService;
-  private final EmbeddingService embeddingService;
+  private final OpensearchQueryService embeddingService;
 
   @Override
   public void write(Chunk<? extends VectorBook> items) {

@@ -1,4 +1,4 @@
-package org.todaybook.embedding.application.service;
+package org.todaybook.embedding.infrastructure.opensearch.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EmbeddingServiceTests {
+class OpensearchQueryServiceTests {
 
-  @Autowired private EmbeddingService embeddingService;
+  @Autowired private OpensearchQueryService embeddingService;
 
   @Test
   @DisplayName("Opensearch ID로 검색 테스트")

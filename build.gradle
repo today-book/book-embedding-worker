@@ -35,7 +35,7 @@ repositories {
 
 ext {
     springAiVersion = "1.1.0"
-    commonVersion = '1.0.1'
+    commonVersion = '1.0.3'
 }
 
 dependencyManagement {
