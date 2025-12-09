@@ -13,8 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class OpensearchServiceTests {
 
-  @Autowired
-  private OpensearchService opensearchService;
+  @Autowired private OpensearchService opensearchService;
 
   @Test
   @DisplayName("Opensearch ID로 검색 테스트")

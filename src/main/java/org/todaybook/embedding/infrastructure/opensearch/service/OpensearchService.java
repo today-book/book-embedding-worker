@@ -6,7 +6,8 @@ import org.springframework.ai.document.Document;
 
 public interface OpensearchService {
   Optional<Document> getDocumentById(String id);
+
   List<Document> getDocumentByIds(List<String> ids);
-//  void upsert(String id, Document document);
-//  void upsert(List<Document> documents);
+  //  void upsert(String id, Document document);
+  //  void upsert(List<Document> documents);
 }

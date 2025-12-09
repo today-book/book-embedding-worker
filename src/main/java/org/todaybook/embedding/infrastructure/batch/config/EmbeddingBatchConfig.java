@@ -29,9 +29,7 @@ public class EmbeddingBatchConfig {
 
   @Bean
   public Job embeddingJob() {
-    return new JobBuilder("embeddingJob", repository)
-        .start(embeddingStep())
-        .build();
+    return new JobBuilder("embeddingJob", repository).start(embeddingStep()).build();
   }
 
   @Bean

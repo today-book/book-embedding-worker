@@ -15,5 +15,4 @@ public record Book(
     String publisher,
     LocalDate publishedAt,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+    LocalDateTime updatedAt) {}

@@ -9,5 +9,4 @@ public class BookEmbeddingWorkerApplication {
   public static void main(String[] args) {
     SpringApplication.run(BookEmbeddingWorkerApplication.class, args);
   }
-
 }

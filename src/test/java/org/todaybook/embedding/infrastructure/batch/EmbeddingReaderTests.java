@@ -21,11 +21,14 @@ import org.todaybook.embedding.domain.Book;
 @SpringBootTest
 @ActiveProfiles("test")
 @Import({TestContainersConfig.class})
-@Sql({"/org/springframework/batch/core/schema-postgresql.sql", "classpath:sql/init.sql", "classpath:sql/book-data.sql"})
+@Sql({
+  "/org/springframework/batch/core/schema-postgresql.sql",
+  "classpath:sql/init.sql",
+  "classpath:sql/book-data.sql"
+})
 class EmbeddingReaderTests {
 
-  @Autowired
-  private JdbcPagingItemReader<Book> reader;
+  @Autowired private JdbcPagingItemReader<Book> reader;
 
   @BeforeEach
   void setup() throws Exception {

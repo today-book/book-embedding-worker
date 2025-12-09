@@ -18,16 +18,13 @@ public class VertexAiEmbeddingConfig {
 
   @Bean
   public VertexAiTextEmbeddingOptions embeddingOptions() {
-    return VertexAiTextEmbeddingOptions.builder()
-        .model("gemini-embedding-001")
-        .build();
+    return VertexAiTextEmbeddingOptions.builder().model("gemini-embedding-001").build();
   }
 
   @Bean
   public VertexAiTextEmbeddingModel embeddingModel(
       VertexAiEmbeddingConnectionDetails connectionDetails,
-      VertexAiTextEmbeddingOptions embeddingOptions
-  ) {
+      VertexAiTextEmbeddingOptions embeddingOptions) {
     return new VertexAiTextEmbeddingModel(connectionDetails, embeddingOptions);
   }
 }

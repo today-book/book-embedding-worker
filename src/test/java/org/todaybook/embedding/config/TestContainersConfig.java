@@ -21,7 +21,8 @@ public class TestContainersConfig {
 
   @Bean
   public OpensearchContainer opensearch() {
-    OpensearchContainer container = new OpensearchContainer(DockerImageName.parse("opensearchproject/opensearch:2.0.0"));
+    OpensearchContainer container =
+        new OpensearchContainer(DockerImageName.parse("opensearchproject/opensearch:2.0.0"));
     container.start();
     System.setProperty("spring.ai.vectorstore.opensearch.uris", container.getHttpHostAddress());
     return container;

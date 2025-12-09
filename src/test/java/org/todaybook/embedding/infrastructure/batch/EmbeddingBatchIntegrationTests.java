@@ -20,35 +20,37 @@ import org.todaybook.embedding.infrastructure.opensearch.service.OpensearchServi
 
 @SpringBootTest
 @SpringBatchTest
-@Sql({"/org/springframework/batch/core/schema-postgresql.sql", "classpath:sql/init.sql", "classpath:sql/book-data.sql"})
+@Sql({
+  "/org/springframework/batch/core/schema-postgresql.sql",
+  "classpath:sql/init.sql",
+  "classpath:sql/book-data.sql"
+})
 @Import({TestContainersConfig.class})
 public class EmbeddingBatchIntegrationTests {
 
-  @Autowired
-  private Job embeddingJob;
+  @Autowired private Job embeddingJob;
 
-  @Autowired
-  private JobLauncherTestUtils jobLauncherTestUtils;
+  @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
 
-  @Autowired
-  private OpensearchService opensearchService;
+  @Autowired private OpensearchService opensearchService;
 
   @Test
   @DisplayName("배치를 실제로 실행하여 OpenSearch에 문서가 저장되는지 검증")
   void test1() throws Exception {
     jobLauncherTestUtils.setJob(embeddingJob);
 
-    JobExecution execution = jobLauncherTestUtils.launchJob(
-        new JobParametersBuilder()
-            .addLong("time", System.currentTimeMillis())
-            .toJobParameters()
-    );
+    JobExecution execution =
+        jobLauncherTestUtils.launchJob(
+            new JobParametersBuilder()
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters());
 
     // then
     assertThat(execution.getStatus().isUnsuccessful()).isFalse();
 
     // OpenSearch에서 일부 문서를 조회해본다 (예: id=1,2)
-    List<Document> docs = opensearchService.getDocumentByIds(List.of("11111111-1111-1111-1111-111111111111"));
+    List<Document> docs =
+        opensearchService.getDocumentByIds(List.of("11111111-1111-1111-1111-111111111111"));
 
     assertThat(docs).isNotEmpty();
     assertThat(docs.getFirst().getFormattedContent()).contains("title:");

@@ -20,18 +20,18 @@ class EmbeddingProcessorTests {
   @Test
   @DisplayName("Embedding Processor 테스트: Book -> VectorBook 변환")
   void test1() {
-    Book book = new Book(
-        UUID.randomUUID(),
-        "0000000000001",
-        "도서 제목",
-        List.of("소설"),
-        "도서 소개 입니다",
-        "도서 저자",
-        "출판사",
-        LocalDate.now(),
-        LocalDateTime.now(),
-        LocalDateTime.now()
-    );
+    Book book =
+        new Book(
+            UUID.randomUUID(),
+            "0000000000001",
+            "도서 제목",
+            List.of("소설"),
+            "도서 소개 입니다",
+            "도서 저자",
+            "출판사",
+            LocalDate.now(),
+            LocalDateTime.now(),
+            LocalDateTime.now());
 
     VectorBook result = processor.process(book);
 

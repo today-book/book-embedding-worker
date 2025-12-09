@@ -19,9 +19,8 @@ public class EmbeddingScheduler {
 
   @Scheduled(cron = "0 0 2 * * *")
   public void schedule() {
-    JobParameters params = new JobParametersBuilder()
-        .addLong("runTime", System.currentTimeMillis())
-        .toJobParameters();
+    JobParameters params =
+        new JobParametersBuilder().addLong("runTime", System.currentTimeMillis()).toJobParameters();
 
     try {
       jobLauncher.run(embeddingJob, params);

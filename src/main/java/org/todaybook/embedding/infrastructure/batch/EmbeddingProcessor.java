@@ -17,11 +17,7 @@ public class EmbeddingProcessor implements ItemProcessor<Book, VectorBook> {
 
   @Override
   public VectorBook process(Book item) {
-    VectorBook vectorBook =  new VectorBook(
-        item.id(),
-        getContent(item),
-        getMetadata(item)
-    );
+    VectorBook vectorBook = new VectorBook(item.id(), getContent(item), getMetadata(item));
 
     log.debug("[TODAY-BOOK] EmbeddingProcessor 실행 (id={}, result={})", item.id(), vectorBook);
     return vectorBook;
