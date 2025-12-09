@@ -23,10 +23,19 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        name = "GitHubPublicPackages"
+        url = uri("https://maven.pkg.github.com/today-book/common")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 ext {
-    set('springAiVersion', "1.1.0")
+    springAiVersion = "1.1.0"
+    commonVersion = '1.0.1'
 }
 
 dependencyManagement {
@@ -37,6 +46,8 @@ dependencyManagement {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+
+    implementation "org.todaybook:common-core:${commonVersion}"
 
     // database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -66,6 +77,28 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+spotless {
+    java {
+        importOrder(
+                'java|javax|jakarta',
+                'org.springframework',
+                'lombok',
+                '',
+                'org.junit|org.mockito',
+                '\\#',
+                '\\#org.junit'
+        )
+        googleJavaFormat()
+        formatAnnotations()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+
+        target 'src/**/*.java'
+    }
+}
+
 tasks.named('test') {
+    dependsOn(tasks.named("spotlessApply"))
     useJUnitPlatform()
 }
