@@ -11,12 +11,13 @@ import org.opensearch.client.opensearch.core.MgetResponse;
 import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.todaybook.embedding.application.service.EmbeddingService;
 import org.todaybook.embedding.infrastructure.opensearch.exception.OpensearchInternalServerException;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OpensearchServiceImpl implements OpensearchService {
+public class OpensearchServiceImpl implements EmbeddingService {
 
   @Value("${spring.ai.vectorstore.opensearch.index-name}")
   private String index;

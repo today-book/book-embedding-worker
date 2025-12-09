@@ -1,10 +1,8 @@
-package org.todaybook.embedding.infrastructure.batch.config;
+package org.todaybook.embedding.application.batch;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
@@ -13,24 +11,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.VectorBook;
-import org.todaybook.embedding.infrastructure.batch.EmbeddingProcessor;
-import org.todaybook.embedding.infrastructure.batch.EmbeddingWriter;
 
 @Configuration
 @EnableBatchProcessing
 @RequiredArgsConstructor
-public class EmbeddingBatchConfig {
+public class EmbeddingStepConfig {
 
   private final JobRepository repository;
   private final PlatformTransactionManager transactionManager;
   private final JdbcPagingItemReader<Book> reader;
   private final EmbeddingProcessor processor;
   private final EmbeddingWriter writer;
-
-  @Bean
-  public Job embeddingJob() {
-    return new JobBuilder("embeddingJob", repository).start(embeddingStep()).build();
-  }
 
   @Bean
   public Step embeddingStep() {

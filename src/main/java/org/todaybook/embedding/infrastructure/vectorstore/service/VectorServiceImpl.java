@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.vector.service;
+package org.todaybook.embedding.infrastructure.vectorstore.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch;
+package org.todaybook.embedding.application.batch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.todaybook.embedding.config.TestContainersConfig;
-import org.todaybook.embedding.infrastructure.opensearch.service.OpensearchService;
+import org.todaybook.embedding.application.service.EmbeddingService;
 
 @SpringBootTest
 @SpringBatchTest
@@ -32,7 +32,7 @@ public class EmbeddingBatchIntegrationTests {
 
   @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
 
-  @Autowired private OpensearchService opensearchService;
+  @Autowired private EmbeddingService opensearchService;
 
   @Test
   @DisplayName("배치를 실제로 실행하여 OpenSearch에 문서가 저장되는지 검증")

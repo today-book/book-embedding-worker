@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch;
+package org.todaybook.embedding.application.batch;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.BookMapper;
-import org.todaybook.embedding.infrastructure.batch.service.JobExecutionService;
+import org.todaybook.embedding.application.service.JobExecutionService;
 
 @Slf4j
 @Configuration
