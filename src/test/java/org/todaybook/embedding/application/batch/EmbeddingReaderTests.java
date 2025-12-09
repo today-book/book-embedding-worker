@@ -15,12 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.todaybook.embedding.config.TestContainersConfig;
+import org.todaybook.embedding.config.TestPostgresContainerConfig;
 import org.todaybook.embedding.domain.Book;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Import({TestContainersConfig.class})
+@Import({TestPostgresContainerConfig.class})
 @Sql({
   "/org/springframework/batch/core/schema-postgresql.sql",
   "classpath:sql/init.sql",

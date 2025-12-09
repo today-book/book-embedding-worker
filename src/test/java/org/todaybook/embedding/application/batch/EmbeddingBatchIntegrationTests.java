@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
-import org.todaybook.embedding.config.TestContainersConfig;
+import org.todaybook.embedding.config.TestPostgresContainerConfig;
 import org.todaybook.embedding.infrastructure.opensearch.service.OpensearchQueryService;
 
 @SpringBootTest
@@ -25,7 +25,7 @@ import org.todaybook.embedding.infrastructure.opensearch.service.OpensearchQuery
   "classpath:sql/init.sql",
   "classpath:sql/book-data.sql"
 })
-@Import({TestContainersConfig.class})
+@Import({TestPostgresContainerConfig.class})
 public class EmbeddingBatchIntegrationTests {
 
   @Autowired private Job embeddingJob;
