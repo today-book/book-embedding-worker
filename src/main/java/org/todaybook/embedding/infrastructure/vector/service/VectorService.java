@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.springframework.ai.document.Document;
 
 public interface VectorService {
-  Optional<Document> getDocumentById(String id);
-  List<Document> getDocumentByIds(List<String> ids);
   void save(List<Document> document);
   void delete(List<String> ids);
 }
