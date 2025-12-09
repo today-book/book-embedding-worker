@@ -23,7 +23,7 @@ import org.todaybook.embedding.infrastructure.vectorstore.service.VectorStoreSer
   TestPostgresContainerConfig.class,
   TestOpensearchContainerConfig.class
 })
-public class OpenSearchContainerTests {
+public class TestOpenSearchContainerConfigTests {
 
   @Value("${spring.ai.vectorstore.opensearch.uris}")
   private String uris;
