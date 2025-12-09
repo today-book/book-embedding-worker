@@ -16,12 +16,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.todaybook.embedding.config.TestContainersConfig;
-import org.todaybook.embedding.config.TestSpringAiConfig;
 import org.todaybook.embedding.domain.Book;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Import({TestContainersConfig.class, TestSpringAiConfig.class})
+@Import({TestContainersConfig.class})
 @Sql({"/org/springframework/batch/core/schema-postgresql.sql", "classpath:sql/init.sql", "classpath:sql/book-data.sql"})
 class EmbeddingReaderTests {
 

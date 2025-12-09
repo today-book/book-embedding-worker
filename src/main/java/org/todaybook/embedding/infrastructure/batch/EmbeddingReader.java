@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;
@@ -16,6 +17,7 @@ import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.BookMapper;
 import org.todaybook.embedding.infrastructure.batch.service.JobExecutionService;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class EmbeddingReader {
@@ -30,6 +32,8 @@ public class EmbeddingReader {
   public JdbcPagingItemReader<Book> reader() throws Exception {
     LocalDateTime time = jobExecutionService.getLastExecutionTime("embeddingJob");
     time = time != null ? time : INITIAL_TIME;
+
+    log.debug("[TODAY-BOOK] EmbeddingReader 실행 (last execution time={})", time);
 
     Map<String, Object> params = Map.of("updated_at", time);
 

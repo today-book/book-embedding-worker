@@ -4,22 +4,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.VectorBook;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class EmbeddingProcessor implements ItemProcessor<Book, VectorBook> {
 
   @Override
   public VectorBook process(Book item) {
-    return new VectorBook(
+    VectorBook vectorBook =  new VectorBook(
         item.id(),
         getContent(item),
         getMetadata(item)
     );
+
+    log.debug("[TODAY-BOOK] EmbeddingProcessor 실행 (id={}, result={})", item.id(), vectorBook);
+    return vectorBook;
   }
 
   private static String getContent(Book book) {
