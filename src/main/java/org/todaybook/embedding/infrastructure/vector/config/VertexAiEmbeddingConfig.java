@@ -1,14 +1,13 @@
-package org.todaybook.embedding.config;
+package org.todaybook.embedding.infrastructure.vector.config;
 
 import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingOptions;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@TestConfiguration
-public class TestSpringAiConfig {
-
+@Configuration
+public class VertexAiEmbeddingConfig {
   @Bean
   public VertexAiEmbeddingConnectionDetails vertexAiEmbeddingConnectionDetails() {
     return VertexAiEmbeddingConnectionDetails.builder()
