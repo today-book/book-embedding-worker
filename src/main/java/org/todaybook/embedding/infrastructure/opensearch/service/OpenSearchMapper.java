@@ -46,14 +46,18 @@ public class OpenSearchMapper {
     return contentStr;
   }
 
+  @SuppressWarnings("unchecked")
   private Map<String, Object> getMetadata(Object metadata) {
     if (metadata == null) return Map.of();
 
     if (metadata instanceof Map<?, ?>) {
-      return (Map<String, Object>) metadata;
+      try {
+        Map<String, Object> metadataMap = (Map<String, Object>) metadata;
+      } catch (ClassCastException e) {
+        throw new OpensearchInvalidDocumentException("[TODAY-BOOK] metadata Map의 키 또는 값 타입이 잘못되었습니다.");
+      }
     }
 
-    throw new OpensearchInvalidDocumentException(
-        String.format("[TODAY-BOOK] metadata 타입이 잘못되었습니다. (id=%s)", metadata));
+    throw new OpensearchInvalidDocumentException("[TODAY-BOOK] metadata가 Map 타입이 아닙니다.");
   }
 }
