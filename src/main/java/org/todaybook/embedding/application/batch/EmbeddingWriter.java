@@ -29,7 +29,7 @@ public class EmbeddingWriter implements ItemWriter<VectorBook> {
     log.debug("[TODAY-BOOK] EmbeddingWriter 실행 - {}권 저장", documents.size());
 
     try {
-      Thread.sleep(60_000);  // 12초 throttling
+      Thread.sleep(60_000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
