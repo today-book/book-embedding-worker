@@ -34,11 +34,16 @@ public class OpenSearchMapper {
   }
 
   private String getContent(Object content) {
-    if (!(content instanceof String) || content.toString().isBlank()) {
-      throw new OpensearchInvalidDocumentException(
-          String.format("[TODAY-BOOK] content 필드가 누락되었거나 타입이 잘못되었습니다. (id=%s)", content));
+    if (!(content instanceof String)) {
+      throw new OpensearchInvalidDocumentException("[TODAY-BOOK] content 필드가 String 타입이 아닙니다.");
     }
-    return (String) content;
+    
+    String contentStr = (String) content;
+    if (contentStr.isBlank()) {
+      throw new OpensearchInvalidDocumentException("[TODAY-BOOK] content 필드가 비어있습니다.");
+    }
+    
+    return contentStr;
   }
 
   private Map<String, Object> getMetadata(Object metadata) {
