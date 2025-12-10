@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch;
+package org.todaybook.embedding.application.batch;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -13,9 +13,9 @@ import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuild
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.todaybook.embedding.application.service.JobExecutionService;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.BookMapper;
-import org.todaybook.embedding.infrastructure.batch.service.JobExecutionService;
 
 @Slf4j
 @Configuration
@@ -43,7 +43,7 @@ public class EmbeddingReader {
         .queryProvider(queryProvider())
         .parameterValues(params)
         .rowMapper(new BookMapper())
-        .pageSize(100)
+        .pageSize(50)
         .build();
   }
 

@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OpensearchServiceTests {
+class OpensearchQueryServiceTests {
 
-  @Autowired private OpensearchService opensearchService;
+  @Autowired private OpensearchQueryService embeddingService;
 
   @Test
   @DisplayName("Opensearch ID로 검색 테스트")
   void test1() {
     String id = "37aca826-6b57-480a-96b0-8be00ab47081";
 
-    Optional<Document> result = opensearchService.getDocumentById(id);
+    Optional<Document> result = embeddingService.getDocumentById(id);
 
     assertTrue(result.isPresent(), "Document should be found");
     Document doc = result.get();
@@ -35,7 +35,7 @@ class OpensearchServiceTests {
   void test2() {
     List<String> ids = List.of("37aca826-6b57-480a-96b0-8be00ab47081");
 
-    List<Document> result = opensearchService.getDocumentByIds(ids);
+    List<Document> result = embeddingService.getDocumentByIds(ids);
 
     assertEquals(ids.size(), result.size());
 

@@ -6,6 +6,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.stereotype.Service;
+import org.todaybook.embedding.application.service.JobExecutionService;
 
 @Service
 @RequiredArgsConstructor

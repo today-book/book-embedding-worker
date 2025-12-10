@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch;
+package org.todaybook.embedding.application.batch;
 
 import java.util.HashMap;
 import java.util.List;

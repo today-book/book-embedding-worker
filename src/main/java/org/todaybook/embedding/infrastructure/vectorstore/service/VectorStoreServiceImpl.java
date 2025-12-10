@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.vector.service;
+package org.todaybook.embedding.infrastructure.vectorstore.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VectorServiceImpl implements VectorService {
+public class VectorStoreServiceImpl implements VectorStoreService {
 
   private final VectorStore vectorStore;
 

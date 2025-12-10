@@ -1,9 +1,9 @@
-package org.todaybook.embedding.infrastructure.vector.service;
+package org.todaybook.embedding.infrastructure.vectorstore.service;
 
 import java.util.List;
 import org.springframework.ai.document.Document;
 
-public interface VectorService {
+public interface VectorStoreService {
   void save(List<Document> document);
 
   void delete(List<String> ids);

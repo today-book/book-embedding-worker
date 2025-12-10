@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch;
+package org.todaybook.embedding.application.batch;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -17,7 +17,7 @@ public class EmbeddingScheduler {
   private final JobLauncher jobLauncher;
   private final Job embeddingJob;
 
-  @Scheduled(cron = "0 0 2 * * *")
+  @Scheduled(cron = "0 0 4 * * *")
   public void schedule() {
     JobParameters params =
         new JobParametersBuilder().addLong("runTime", System.currentTimeMillis()).toJobParameters();

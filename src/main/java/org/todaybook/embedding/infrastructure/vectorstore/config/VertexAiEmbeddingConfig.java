@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.vector.config;
+package org.todaybook.embedding.infrastructure.vectorstore.config;
 
 import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
