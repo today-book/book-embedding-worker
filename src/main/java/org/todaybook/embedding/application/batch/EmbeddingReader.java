@@ -13,9 +13,9 @@ import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuild
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.todaybook.embedding.application.service.JobExecutionService;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.BookMapper;
-import org.todaybook.embedding.application.service.JobExecutionService;
 
 @Slf4j
 @Configuration

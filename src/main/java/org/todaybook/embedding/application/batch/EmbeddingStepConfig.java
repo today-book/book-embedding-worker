@@ -26,7 +26,7 @@ public class EmbeddingStepConfig {
   @Bean
   public Step embeddingStep() {
     return new StepBuilder("embeddingStep", repository)
-        .<Book, VectorBook>chunk(100, transactionManager)
+        .<Book, VectorBook>chunk(5, transactionManager)
         .reader(reader)
         .processor(processor)
         .writer(writer)

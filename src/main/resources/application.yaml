@@ -8,16 +8,13 @@ spring:
     password: ${POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  sql:
+    init:
+      mode: never
+      schema-locations:
+        - "classpath:org/springframework/batch/core/schema-postgresql.sql"
 
   ai:
-    vertex.ai:
-        embedding:
-          project-id: todaybook-479908
-          location: us-central1
-          text:
-            options:
-              model: gemini-embedding-001
-
     vectorstore:
       opensearch:
         uris: http://localhost:9200
@@ -27,3 +24,7 @@ spring:
         dimensions: 3072
         read-timeout: 5000
         connect-timeout: 60000
+
+logging:
+  level:
+    org.todaybook.embedding.application.batch: DEBUG
