@@ -43,7 +43,7 @@ public class EmbeddingReader {
         .queryProvider(queryProvider())
         .parameterValues(params)
         .rowMapper(new BookMapper())
-        .pageSize(100)
+        .pageSize(50)
         .build();
   }
 
