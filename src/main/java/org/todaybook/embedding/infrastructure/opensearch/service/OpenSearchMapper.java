@@ -37,12 +37,12 @@ public class OpenSearchMapper {
     if (!(content instanceof String)) {
       throw new OpensearchInvalidDocumentException("[TODAY-BOOK] content 필드가 String 타입이 아닙니다.");
     }
-    
+
     String contentStr = (String) content;
     if (contentStr.isBlank()) {
       throw new OpensearchInvalidDocumentException("[TODAY-BOOK] content 필드가 비어있습니다.");
     }
-    
+
     return contentStr;
   }
 
@@ -54,7 +54,8 @@ public class OpenSearchMapper {
       try {
         Map<String, Object> metadataMap = (Map<String, Object>) metadata;
       } catch (ClassCastException e) {
-        throw new OpensearchInvalidDocumentException("[TODAY-BOOK] metadata Map의 키 또는 값 타입이 잘못되었습니다.");
+        throw new OpensearchInvalidDocumentException(
+            "[TODAY-BOOK] metadata Map의 키 또는 값 타입이 잘못되었습니다.");
       }
     }
 

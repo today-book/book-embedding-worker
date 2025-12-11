@@ -26,7 +26,7 @@ public class EmbeddingWriter implements ItemWriter<VectorBook> {
 
     vectorStoreService.save(documents);
 
-    log.debug("[TODAY-BOOK] EmbeddingWriter 실행 - {}권 저장", documents.size());
+    log.info("[TODAY-BOOK] EmbeddingWriter 실행 - {}권 저장", documents.size());
 
     try {
       Thread.sleep(60_000);

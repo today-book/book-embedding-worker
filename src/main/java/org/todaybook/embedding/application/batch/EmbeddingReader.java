@@ -33,7 +33,7 @@ public class EmbeddingReader {
     LocalDateTime time = jobExecutionService.getLastExecutionTime("embeddingJob");
     time = time != null ? time : INITIAL_TIME;
 
-    log.debug("[TODAY-BOOK] EmbeddingReader 실행 (last execution time={})", time);
+    log.info("[TODAY-BOOK] EmbeddingReader 실행 (last execution time={})", time);
 
     Map<String, Object> params = Map.of("updated_at", time);
 

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: book-embedding-worker
@@ -7,12 +10,6 @@ spring:
     username: ${POSTGRESQL_USERNAME}
     password: ${POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
-  sql:
-    init:
-      mode: never
-      schema-locations:
-        - "classpath:org/springframework/batch/core/schema-postgresql.sql"
 
   ssl:
     bundle:
@@ -35,7 +32,3 @@ spring:
         dimensions: 768
         read-timeout: 5000
         connect-timeout: 60000
-
-logging:
-  level:
-    org.todaybook.embedding.application.batch: DEBUG
