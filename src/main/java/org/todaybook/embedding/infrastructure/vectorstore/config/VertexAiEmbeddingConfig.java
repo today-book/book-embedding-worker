@@ -18,7 +18,7 @@ public class VertexAiEmbeddingConfig {
 
   @Bean
   public VertexAiTextEmbeddingOptions embeddingOptions() {
-    return VertexAiTextEmbeddingOptions.builder().model("gemini-embedding-001").build();
+    return VertexAiTextEmbeddingOptions.builder().model("gemini-embedding-001").dimensions(768).build();
   }
 
   @Bean
