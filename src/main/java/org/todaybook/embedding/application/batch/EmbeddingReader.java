@@ -13,7 +13,7 @@ import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuild
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.todaybook.embedding.application.service.JobExecutionService;
+import org.todaybook.embedding.application.service.JobService;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.domain.BookMapper;
 
@@ -25,12 +25,12 @@ public class EmbeddingReader {
   private static final LocalDateTime INITIAL_TIME = LocalDateTime.of(1970, 1, 1, 0, 0);
 
   private final DataSource dataSource;
-  private final JobExecutionService jobExecutionService;
+  private final JobService jobService;
 
   @Bean
   @StepScope
   public JdbcPagingItemReader<Book> reader() throws Exception {
-    LocalDateTime time = jobExecutionService.getLastExecutionTime("embeddingJob");
+    LocalDateTime time = jobService.getLastSuccessTime("embeddingJob");
     time = time != null ? time : INITIAL_TIME;
 
     log.info("[TODAY-BOOK] EmbeddingReader 실행 (last execution time={})", time);
