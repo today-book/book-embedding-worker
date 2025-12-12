@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class EmbeddingScheduler {
 
   private final JobLauncher jobLauncher;
+  private final JobExplorer jobExplorer;
   private final Job embeddingJob;
 
   @EventListener(ApplicationReadyEvent.class)
@@ -28,6 +30,11 @@ public class EmbeddingScheduler {
   @Scheduled(cron = "0 0 4 * * *")
   public void run() {
     try {
+      if (isRunning(embeddingJob)) {
+        log.warn("[TODAY-BOOK] 이전 임베딩 작업이 아직 실행 중입니다. 이번 실행은 건너뜁니다.");
+        return;
+      }
+
       JobParameters params =
           new JobParametersBuilder().addLong("run", System.currentTimeMillis()).toJobParameters();
 
@@ -37,5 +44,9 @@ public class EmbeddingScheduler {
     } catch (Exception e) {
       log.error("[TODAY-BOOK] 임베딩 작업에 실패하였습니다. (message={})", e.getMessage());
     }
+  }
+
+  private boolean isRunning(Job job) {
+    return !jobExplorer.findRunningJobExecutions(job.getName()).isEmpty();
   }
 }
