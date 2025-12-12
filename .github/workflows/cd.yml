@@ -71,6 +71,7 @@ jobs:
             sudo docker pull ${{ env.IMAGE_URI }}
             
             sudo docker run -d --name book-embedding-worker -p 9004:8080  \
+            --network internal-net \
             -v /home/ubuntu/app/certs/opensearch.crt:/app/certs/opensearch.crt \
             -v /etc/gcp/keys/service-account.json:/var/secrets/gcp/key.json \
             -e GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/gcp/key.json \
