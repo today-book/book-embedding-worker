@@ -2,12 +2,13 @@ name: Deploy to Amazon EC2
 
 on:
   push:
-    branches: [ "main" ]
+    tags:
+      - '*'
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: today-book/book-embedding-worker
-  VERSION: 1.0.2
+  VERSION: ${{ github.ref_name }}
 
 jobs:
   Deploy:
@@ -37,7 +38,7 @@ jobs:
           chmod +x gradlew
           ./gradlew build -x test
 
-      - name: Log into Github contianer registry
+      - name: Log into Github container registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
