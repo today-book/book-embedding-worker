@@ -30,9 +30,9 @@ public class EmbeddingStepConfig {
         .reader(reader)
         .processor(processor)
         .writer(writer)
-        .faultTolerant() // 실패 시 Chunk 단위 재시도
-        .retry(Exception.class)
-        .retryLimit(3)
+        .faultTolerant()
+        .skip(IllegalArgumentException.class)
+        .skipLimit(Integer.MAX_VALUE)
         .build();
   }
 }
