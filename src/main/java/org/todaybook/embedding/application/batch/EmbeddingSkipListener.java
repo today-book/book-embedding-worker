@@ -17,11 +17,15 @@ public class EmbeddingSkipListener implements SkipListener<Book, VectorBook> {
 
   @Override
   public void onSkipInProcess(Book book, Throwable throwable) {
-    log.warn("[TODAY-BOOK] 스킵된 문서 (process 단계) bookId={}, reason={}", book.id(), throwable.getMessage());
+    log.warn(
+        "[TODAY-BOOK] 스킵된 문서 (process 단계) bookId={}, reason={}", book.id(), throwable.getMessage());
   }
 
   @Override
   public void onSkipInWrite(VectorBook vectorBook, Throwable throwable) {
-    log.warn("[TODAY-BOOK] 스킵된 문서 (write 단계) vectorBookId={}, reason={}", vectorBook.id(), throwable.getMessage());
+    log.warn(
+        "[TODAY-BOOK] 스킵된 문서 (write 단계) vectorBookId={}, reason={}",
+        vectorBook.id(),
+        throwable.getMessage());
   }
 }
