@@ -1,4 +1,4 @@
-package org.todaybook.embedding.application.batch;
+package org.todaybook.embedding.infrastructure.batch.reader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.todaybook.embedding.config.TestPostgresContainerConfig;
-import org.todaybook.embedding.domain.Book;
+import org.todaybook.embedding.infrastructure.batch.model.Book;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -26,7 +26,7 @@ import org.todaybook.embedding.domain.Book;
   "classpath:sql/init.sql",
   "classpath:sql/book-data.sql"
 })
-class EmbeddingReaderTests {
+class PagingItemReaderTests {
 
   @Autowired private JdbcPagingItemReader<Book> reader;
 

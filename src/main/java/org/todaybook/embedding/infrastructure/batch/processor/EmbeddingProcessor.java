@@ -1,4 +1,4 @@
-package org.todaybook.embedding.application.batch;
+package org.todaybook.embedding.infrastructure.batch.processor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.domain.Book;
-import org.todaybook.embedding.domain.VectorBook;
+import org.todaybook.embedding.infrastructure.batch.model.Book;
+import org.todaybook.embedding.infrastructure.batch.model.VectorBook;
 
 @Slf4j
 @Component

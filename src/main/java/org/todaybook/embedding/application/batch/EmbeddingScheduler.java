@@ -12,7 +12,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.application.service.JobService;
+import org.todaybook.embedding.application.batch.service.JobService;
 
 @Slf4j
 @Component
@@ -53,7 +53,10 @@ public class EmbeddingScheduler {
       }
 
       JobParameters params =
-          new JobParametersBuilder().addLong("run", System.currentTimeMillis()).toJobParameters();
+          new JobParametersBuilder()
+              .addLong("run", System.currentTimeMillis())
+              .addLong("chunkSize", 50L)
+              .toJobParameters();
 
       jobLauncher.run(embeddingJob, params);
 

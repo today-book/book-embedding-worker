@@ -12,7 +12,7 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.stereotype.Service;
-import org.todaybook.embedding.application.service.JobService;
+import org.todaybook.embedding.application.batch.service.JobService;
 
 @Slf4j
 @Service

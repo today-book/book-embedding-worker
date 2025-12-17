@@ -1,4 +1,4 @@
-package org.todaybook.embedding.application.service;
+package org.todaybook.embedding.application.batch.service;
 
 import java.time.LocalDateTime;
 

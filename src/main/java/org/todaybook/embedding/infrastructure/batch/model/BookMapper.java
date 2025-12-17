@@ -1,4 +1,4 @@
-package org.todaybook.embedding.domain;
+package org.todaybook.embedding.infrastructure.batch.model;
 
 import java.sql.Array;
 import java.sql.ResultSet;
