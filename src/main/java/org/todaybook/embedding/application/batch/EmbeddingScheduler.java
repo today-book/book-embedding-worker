@@ -53,7 +53,10 @@ public class EmbeddingScheduler {
       }
 
       JobParameters params =
-          new JobParametersBuilder().addLong("run", System.currentTimeMillis()).toJobParameters();
+          new JobParametersBuilder()
+              .addLong("run", System.currentTimeMillis())
+              .addLong("chunkSize", 50L)
+              .toJobParameters();
 
       jobLauncher.run(embeddingJob, params);
 
