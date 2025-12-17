@@ -1,7 +1,8 @@
 package org.todaybook.embedding.infrastructure.batch.processor;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +11,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.todaybook.embedding.infrastructure.batch.model.Book;
+import org.todaybook.embedding.infrastructure.batch.model.VectorBook;
 
 class EmbeddingProcessorTests {
 
