@@ -1,10 +1,10 @@
-package org.todaybook.embedding.application.batch;
+package org.todaybook.embedding.infrastructure.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.SkipListener;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.domain.Book;
-import org.todaybook.embedding.domain.VectorBook;
+import org.todaybook.embedding.infrastructure.batch.model.Book;
+import org.todaybook.embedding.infrastructure.batch.model.VectorBook;
 
 @Slf4j
 @Component

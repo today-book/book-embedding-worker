@@ -1,4 +1,4 @@
-package org.todaybook.embedding.application.batch;
+package org.todaybook.embedding.infrastructure.batch.writer;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.ai.document.Document;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.domain.VectorBook;
+import org.todaybook.embedding.infrastructure.batch.model.VectorBook;
 import org.todaybook.embedding.infrastructure.vectorstore.service.VectorStoreService;
 
 @Slf4j

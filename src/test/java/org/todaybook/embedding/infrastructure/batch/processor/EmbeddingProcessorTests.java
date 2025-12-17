@@ -1,4 +1,4 @@
-package org.todaybook.embedding.application.batch;
+package org.todaybook.embedding.infrastructure.batch.processor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.todaybook.embedding.domain.Book;
-import org.todaybook.embedding.domain.VectorBook;
 
 class EmbeddingProcessorTests {
 
