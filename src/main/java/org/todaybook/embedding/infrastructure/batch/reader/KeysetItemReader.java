@@ -1,6 +1,7 @@
 package org.todaybook.embedding.infrastructure.batch.reader;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,7 @@ public class KeysetItemReader implements ItemReader<Book>, StepExecutionListener
   private BookCursor cursor;
   private Iterator<Book> iterator = Collections.emptyIterator();
 
-  @Value("#{jobParameters['chunk'] ?: 50}")
+  @Value("#{jobParameters['chunkSize'] ?: 50}")
   private int pageSize;
 
   private static final String CURSOR_ID = "cursor.id";
@@ -98,25 +99,38 @@ public class KeysetItemReader implements ItemReader<Book>, StepExecutionListener
         cursor.updatedAt(),
         pageSize);
 
-    List<Book> result =
-        jdbcTemplate.query(
-            """
+    List<Book> result = new ArrayList<>();
+    if (cursor.updatedAt() == null) {
+      result.addAll(
+          jdbcTemplate.query(
+              """
+                  SELECT id, isbn, title, categories, description, author, publisher, published_at, created_at, updated_at
+                  FROM book.p_books
+                  ORDER BY updated_at ASC, id ASC
+                  LIMIT ?
+                  """,
+              new BookMapper(),
+              pageSize));
+    } else {
+      result.addAll(
+          jdbcTemplate.query(
+              """
                 SELECT id, isbn, title, categories, description, author, publisher, published_at, created_at, updated_at
                 FROM book.p_books
                 WHERE
                   (
                     updated_at > ?
-                    OR (updated_at = ? AND (? IS NULL OR id > ?))
+                    OR (updated_at = ? AND id > ?)
                   )
                 ORDER BY updated_at ASC, id ASC
                 LIMIT ?
                 """,
-            new BookMapper(),
-            cursor.updatedAt(),
-            cursor.updatedAt(),
-            cursor.bookId(),
-            cursor.bookId(),
-            pageSize);
+              new BookMapper(),
+              cursor.updatedAt(),
+              cursor.updatedAt(),
+              cursor.bookId(),
+              pageSize));
+    }
 
     if (result.isEmpty()) {
       iterator = Collections.emptyIterator();
@@ -133,18 +147,18 @@ public class KeysetItemReader implements ItemReader<Book>, StepExecutionListener
         "[TODAY-BOOK] KeysetItemReader 커서 이동 ({} -> {})", formatCursor(prev), formatCursor(cursor));
   }
 
-  /** Step 시작 시 ExecutionContext로부터 커서를 복원한다. 최초 실행 시에는 {@code LocalDateTime.MIN} 기준으로 시작한다. */
+  /** Step 시작 시 ExecutionContext로부터 커서를 복원한다. */
   @Override
   public void beforeStep(StepExecution execution) {
     ExecutionContext context = execution.getExecutionContext();
 
-    if (context.containsKey(CURSOR_UPDATED_AT)) {
+    if (context.containsKey(CURSOR_ID) && context.containsKey(CURSOR_UPDATED_AT)) {
       cursor =
           BookCursor.of(
               UUID.fromString(context.getString(CURSOR_ID)),
               (LocalDateTime) context.get(CURSOR_UPDATED_AT));
     } else {
-      cursor = BookCursor.of(null, LocalDateTime.MIN);
+      cursor = BookCursor.initial();
     }
 
     log.info("[TODAY-BOOK] KeysetItemReader 실행 - ({})", formatCursor(cursor));
@@ -155,9 +169,7 @@ public class KeysetItemReader implements ItemReader<Book>, StepExecutionListener
   public ExitStatus afterStep(StepExecution execution) {
     if (cursor != null) {
       ExecutionContext context = execution.getExecutionContext();
-      if (cursor.bookId() != null) {
-        context.put(CURSOR_ID, cursor.bookId().toString());
-      }
+      context.put(CURSOR_ID, cursor.bookId().toString());
       context.put(CURSOR_UPDATED_AT, cursor.updatedAt());
 
       log.info("[TODAY-BOOK] 임베딩 step이 종료되었습니다. cursor를 저장합니다. ({})", formatCursor(cursor));
