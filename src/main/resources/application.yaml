@@ -49,7 +49,7 @@ management:
       exposure:
         include: health,info,prometheus
         exclude: env, heapdump,beans,loggers
-      base-path: /internal!
+      base-path: /internal
   endpoint:
     health:
       show-details: never
