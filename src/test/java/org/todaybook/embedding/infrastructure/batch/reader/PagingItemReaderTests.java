@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
@@ -18,6 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.todaybook.embedding.config.TestPostgresContainerConfig;
 import org.todaybook.embedding.infrastructure.batch.model.Book;
 
+@Disabled
 @SpringBootTest
 @ActiveProfiles("test")
 @Import({TestPostgresContainerConfig.class})

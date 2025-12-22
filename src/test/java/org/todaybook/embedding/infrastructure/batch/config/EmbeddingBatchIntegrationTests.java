@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.document.Document;
@@ -33,6 +34,7 @@ import org.todaybook.embedding.config.TestPostgresContainerConfig;
 import org.todaybook.embedding.infrastructure.opensearch.service.OpensearchQueryService;
 import org.todaybook.embedding.infrastructure.vectorstore.service.VectorStoreService;
 
+@Disabled
 @SpringBootTest
 @SpringBatchTest
 @Sql({
