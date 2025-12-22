@@ -16,13 +16,6 @@ spring:
       max-lifetime: 1700000   # 28 ~ 29분
       keepalive-time: 0
 
-  ssl:
-    bundle:
-      pem:
-        opensearch:
-          truststore:
-            certificate: ${OPENSEARCH_CERT_PATH}
-
   ai:
     vertex:
       ai:
@@ -34,7 +27,6 @@ spring:
         uris: ${OPENSEARCH_URIS}
         username: ${OPENSEARCH_USERNAME}
         password: ${OPENSEARCH_PASSWORD}
-        ssl-bundle: opensearch
         index-name: book-embedding-index
         initialize-schema: true
         similarity-function: cosinesimil
