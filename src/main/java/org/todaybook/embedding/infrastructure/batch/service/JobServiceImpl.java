@@ -1,18 +1,15 @@
 package org.todaybook.embedding.infrastructure.batch.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.stereotype.Service;
-import org.todaybook.embedding.application.batch.service.JobService;
 
 @Slf4j
 @Service
@@ -21,32 +18,6 @@ public class JobServiceImpl implements JobService {
 
   private final JobRepository jobRepository;
   private final JobExplorer jobExplorer;
-
-  @Override
-  public LocalDateTime getLastSuccessTime(String job) {
-    int start = 0;
-    int size = 10;
-
-    while (true) {
-      List<JobInstance> instances = jobExplorer.getJobInstances(job, start, size);
-      if (instances.isEmpty()) break;
-
-      for (JobInstance instance : instances) {
-        JobExecution execution =
-            jobExplorer.getJobExecutions(instance).stream()
-                .filter(e -> e.getStatus() == BatchStatus.COMPLETED)
-                .findFirst()
-                .orElse(null);
-
-        if (execution != null && execution.getEndTime() != null) {
-          return execution.getEndTime();
-        }
-      }
-
-      start += size;
-    }
-    return null;
-  }
 
   @Override
   public boolean isRunning(String job) {

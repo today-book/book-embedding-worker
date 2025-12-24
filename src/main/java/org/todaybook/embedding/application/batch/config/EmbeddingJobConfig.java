@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.batch.config;
+package org.todaybook.embedding.application.batch.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -15,10 +15,15 @@ import org.springframework.context.annotation.Configuration;
 public class EmbeddingJobConfig {
 
   private final JobRepository repository;
-  private final Step embeddingStep;
 
   @Bean
-  public Job embeddingJob() {
-    return new JobBuilder("embeddingJob", repository).start(embeddingStep).build();
+  public Job embeddingJob(
+      Step initKeysetStep,
+      Step embeddingStep
+  ) {
+    return new JobBuilder("embeddingJob", repository)
+        .start(initKeysetStep)
+        .next(embeddingStep)
+        .build();
   }
 }

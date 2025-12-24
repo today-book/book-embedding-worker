@@ -6,15 +6,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.BulkResponse;
-import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.todaybook.embedding.application.batch.service.VectorStoreService;
+import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 import org.todaybook.embedding.infrastructure.opensearch.exception.OpensearchInternalServerException;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OpensearchUpsertServiceImpl implements OpensearchUpsertService {
+public class OpensearchUpsertServiceImpl implements VectorStoreService {
 
   @Value("${spring.ai.vectorstore.opensearch.index-name}")
   private String index;
@@ -23,9 +24,9 @@ public class OpensearchUpsertServiceImpl implements OpensearchUpsertService {
   private final OpenSearchMapper mapper;
 
   @Override
-  public void upsert(String id, Document document) {
+  public void upsert(String id, EmbeddingDocument document) {
     try {
-      Map<String, Object> doc = mapper.fromDocument(document);
+      Map<String, Object> doc = mapper.toMap(document);
 
       client.update(u -> u.index(index).id(id).doc(doc).docAsUpsert(true), Map.class);
     } catch (Exception e) {
@@ -35,14 +36,14 @@ public class OpensearchUpsertServiceImpl implements OpensearchUpsertService {
   }
 
   @Override
-  public void upsert(List<Document> documents) {
+  public void upsert(List<EmbeddingDocument> documents) {
     try {
       BulkResponse response =
           client.bulk(
               b -> {
-                for (Document document : documents) {
-                  String id = document.getId();
-                  Map<String, Object> doc = mapper.fromDocument(document);
+                for (EmbeddingDocument document : documents) {
+                  String id = document.id().toString();
+                  Map<String, Object> doc = mapper.toMap(document);
 
                   b.operations(
                       op -> op.update(u -> u.index(index).id(id).document(doc).docAsUpsert(true)));

@@ -15,6 +15,8 @@ spring:
       maximum-pool-size: 2
       max-lifetime: 1700000   # 28 ~ 29분
       keepalive-time: 0
+      data-source-properties:
+        ApplicationName: book-embedding-worker-${HOSTNAME:localhost}
 
   ai:
     vertex:
@@ -34,6 +36,14 @@ spring:
         dimensions: 768
         read-timeout: 5000
         connect-timeout: 60000
+
+resilience4j:
+  ratelimiter:
+    instances:
+      embeddingRateLimiter:
+        limitForPeriod: 5       # 주기 당 허용 횟수
+        limitRefreshPeriod: 1m  # 주기 = 1분
+        timeoutDuration: 0      # 대기 없이 즉시 거부 (토큰 없으면 즉시 실패)
 
 management:
   endpoints:

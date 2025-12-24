@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.vectorstore.config;
+package org.todaybook.embedding.infrastructure.embedding.config;
 
 import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
@@ -28,6 +28,7 @@ public class VertexAiEmbeddingConfig {
   public VertexAiTextEmbeddingOptions embeddingOptions() {
     return VertexAiTextEmbeddingOptions.builder()
         .model("gemini-embedding-001")
+        .autoTruncate(false)
         .dimensions(768)
         .build();
   }
