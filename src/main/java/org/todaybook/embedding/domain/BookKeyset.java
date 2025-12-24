@@ -1,8 +1,8 @@
 package org.todaybook.embedding.domain;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
+import org.springframework.batch.item.ExecutionContext;
 
 public record BookKeyset(UUID bookId, LocalDateTime updatedAt) {
 
@@ -23,19 +23,19 @@ public record BookKeyset(UUID bookId, LocalDateTime updatedAt) {
     );
   }
 
-  public static boolean exists(Map<String, Object> context) {
+  public static boolean exists(ExecutionContext context) {
     return context.containsKey(KEY_BOOK_ID) && context.containsKey(KEY_UPDATED_AT);
   }
 
-  public static BookKeyset from(Map<String, Object> context) {
+  public static BookKeyset from(ExecutionContext context) {
     return BookKeyset.of(
-        UUID.fromString(context.get(KEY_BOOK_ID).toString()),
+        UUID.fromString(context.getString(KEY_BOOK_ID)),
         (LocalDateTime) context.get(KEY_UPDATED_AT)
     );
   }
 
-  public void put(Map<String, Object> context) {
+  public void put(ExecutionContext context) {
     context.put(KEY_BOOK_ID, bookId.toString());
-    context.put(KEY_UPDATED_AT, LocalDateTime.now());
+    context.put(KEY_UPDATED_AT, updatedAt);
   }
 }

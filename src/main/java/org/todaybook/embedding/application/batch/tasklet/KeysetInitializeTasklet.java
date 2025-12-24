@@ -24,11 +24,11 @@ public class KeysetInitializeTasklet implements Tasklet {
 
     BookKeyset keyset;
 
-    if (BookKeyset.exists(context.toMap())) {
-      keyset = BookKeyset.from(context.toMap());
+    if (BookKeyset.exists(context)) {
+      keyset = BookKeyset.from(context);
     } else {
       keyset = BookKeyset.initial();
-      keyset.put(context.toMap());
+      keyset.put(context);
     }
 
     log.info("[TODAY-BOOK] Keyset 초기화 완료 - {}", keyset);

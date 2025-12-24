@@ -8,9 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.GetResponse;
 import org.opensearch.client.opensearch.core.MgetResponse;
-import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 import org.todaybook.embedding.infrastructure.opensearch.exception.OpensearchInternalServerException;
 
 @Slf4j
@@ -25,7 +25,7 @@ public class OpensearchQueryServiceImpl implements OpensearchQueryService {
   private final OpenSearchMapper mapper;
 
   @Override
-  public Optional<Document> getDocumentById(String id) {
+  public Optional<EmbeddingDocument> getDocumentById(String id) {
     try {
       GetResponse<Map> res = client.get(g -> g.index(index).id(id), Map.class);
 
@@ -40,7 +40,7 @@ public class OpensearchQueryServiceImpl implements OpensearchQueryService {
   }
 
   @Override
-  public List<Document> getDocumentByIds(List<String> ids) {
+  public List<EmbeddingDocument> getDocumentByIds(List<String> ids) {
     try {
       MgetResponse<Map> res = client.mget(g -> g.index(index).ids(ids), Map.class);
 

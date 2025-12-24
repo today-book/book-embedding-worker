@@ -21,14 +21,14 @@ import org.todaybook.embedding.domain.service.BookQueryService;
 public class EmbeddingTasklet implements Tasklet {
 
   private final BookQueryService bookQueryService;
-  private final EmbeddingBatchService vectorStoreService;
+  private final EmbeddingBatchService embeddingBatchService;
 
   @Override
   public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
     ExecutionContext context =
         contribution.getStepExecution().getJobExecution().getExecutionContext();
 
-    BookKeyset keyset = BookKeyset.from(context.toMap());
+    BookKeyset keyset = BookKeyset.from(context);
 
     log.info("[TODAY-BOOK] 임베딩 조회 시작 - keyset={}", keyset);
 
@@ -39,11 +39,11 @@ public class EmbeddingTasklet implements Tasklet {
       return RepeatStatus.FINISHED;
     }
 
-    vectorStoreService.save(books);
+    embeddingBatchService.save(books);
 
     Book last = books.getLast();
     BookKeyset next = BookKeyset.of(last.id(), last.updatedAt());
-    next.put(context.toMap());
+    next.put(context);
 
     log.info("[TODAY-BOOK] 임베딩 저장 완료 - keyset={}", next);
 
