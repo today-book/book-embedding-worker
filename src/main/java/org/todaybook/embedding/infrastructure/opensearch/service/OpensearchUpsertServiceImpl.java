@@ -8,8 +8,8 @@ import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.BulkResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.todaybook.embedding.application.batch.service.VectorStoreService;
 import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
+import org.todaybook.embedding.application.batch.service.VectorStoreService;
 import org.todaybook.embedding.infrastructure.opensearch.exception.OpensearchInternalServerException;
 
 @Slf4j

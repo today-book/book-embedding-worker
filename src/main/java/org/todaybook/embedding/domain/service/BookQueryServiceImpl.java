@@ -55,7 +55,11 @@ public class BookQueryServiceImpl implements BookQueryService {
               size));
     }
 
-    log.debug("[TODAY-BOOK] 도서 데이터 조회 (bookId={}, updatedAt={}, size={})", keyset.bookId(), keyset.updatedAt(), size);
+    log.debug(
+        "[TODAY-BOOK] 도서 데이터 조회 (bookId={}, updatedAt={}, size={})",
+        keyset.bookId(),
+        keyset.updatedAt(),
+        size);
 
     return result;
   }

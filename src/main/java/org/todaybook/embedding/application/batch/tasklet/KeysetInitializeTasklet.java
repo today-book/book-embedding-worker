@@ -19,8 +19,7 @@ public class KeysetInitializeTasklet implements Tasklet {
   @Override
   public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
     StepExecution execution = contribution.getStepExecution();
-    ExecutionContext context =
-        execution.getJobExecution().getExecutionContext();
+    ExecutionContext context = execution.getJobExecution().getExecutionContext();
 
     BookKeyset keyset;
 

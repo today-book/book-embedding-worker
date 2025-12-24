@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.stereotype.Service;
+import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.infrastructure.embedding.TokenBatchSplitter;
-import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 
 @Slf4j
 @Service
@@ -27,15 +27,15 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
 
     log.info("[TODAY-BOOK] 임베딩 시작 - 대상 도서 {}권", books.size());
 
-    List<Document> documents = books.stream()
-        .map(book ->
-            new Document(
-                book.id().toString(),
-                EmbeddingDocument.buildContent(book),
-                EmbeddingDocument.buildMetadata(book)
-            )
-        )
-        .toList();
+    List<Document> documents =
+        books.stream()
+            .map(
+                book ->
+                    new Document(
+                        book.id().toString(),
+                        EmbeddingDocument.buildContent(book),
+                        EmbeddingDocument.buildMetadata(book)))
+            .toList();
 
     List<List<Document>> batches = tokenBatchSplitter.split(documents);
 
@@ -46,12 +46,11 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
     int index = 1;
     for (List<Document> batch : batches) {
       try {
-        log.debug("[TODAY-BOOK] Embedding batch {}/{} - {} docs",
-            index++, batches.size(), batch.size());
+        log.debug(
+            "[TODAY-BOOK] Embedding batch {}/{} - {} docs", index++, batches.size(), batch.size());
 
-        List<float[]> embeddings = embeddingService.embed(
-            batch.stream().map(Document::getFormattedContent).toList()
-        );
+        List<float[]> embeddings =
+            embeddingService.embed(batch.stream().map(Document::getFormattedContent).toList());
 
         for (int i = 0; i < embeddings.size(); i++) {
           result.add(EmbeddingDocument.from(batch.get(i), embeddings.get(i)));

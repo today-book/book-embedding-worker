@@ -32,8 +32,7 @@ public class OpenSearchMapper {
     return Map.of(
         "content", document.content(),
         "metadata", document.metadata(),
-        "embedding", document.embedding()
-    );
+        "embedding", document.embedding());
   }
 
   private String getContent(Object value) {

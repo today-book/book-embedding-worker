@@ -8,17 +8,16 @@ import org.springframework.ai.tokenizer.TokenCountEstimator;
 import org.springframework.stereotype.Component;
 
 /**
- * {@code BookSplitter}는 하나의 도서 콘텐츠를
- * 토큰 수 기준으로 안전한 크기의 여러 조각으로 분할한다.
+ * {@code BookSplitter}는 하나의 도서 콘텐츠를 토큰 수 기준으로 안전한 크기의 여러 조각으로 분할한다.
  *
  * <p>분할 전략:
+ *
  * <ul>
- *   <li>1차: 문단 단위(\n\n) 분할</li>
- *   <li>2차: 문단이 너무 클 경우 토큰 기준 강제 분할</li>
+ *   <li>1차: 문단 단위(\n\n) 분할
+ *   <li>2차: 문단이 너무 클 경우 토큰 기준 강제 분할
  * </ul>
  *
- * <p>Vertex AI(gemini-embedding) 환경에서
- * 토큰 초과 및 auto-truncate를 방지하기 위한 용도이다.</p>
+ * <p>Vertex AI(gemini-embedding) 환경에서 토큰 초과 및 auto-truncate를 방지하기 위한 용도이다.
  */
 @Slf4j
 @Component
@@ -78,9 +77,7 @@ public class TokenBasedSplitter {
     }
   }
 
-  /**
-   * 너무 큰 문단을 토큰 기준으로 강제 분할
-   */
+  /** 너무 큰 문단을 토큰 기준으로 강제 분할 */
   private List<String> splitLargeParagraph(String paragraph) {
     List<String> result = new ArrayList<>();
 

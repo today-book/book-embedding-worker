@@ -53,9 +53,7 @@ public class EmbeddingScheduler {
       }
 
       JobParameters params =
-          new JobParametersBuilder()
-              .addLong("run", System.currentTimeMillis())
-              .toJobParameters();
+          new JobParametersBuilder().addLong("run", System.currentTimeMillis()).toJobParameters();
 
       log.info("[TODAY-BOOK] 임베딩 작업을 시작합니다. (run={})", params.getLong("run"));
 

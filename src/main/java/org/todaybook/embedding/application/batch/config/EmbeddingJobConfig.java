@@ -17,16 +17,15 @@ public class EmbeddingJobConfig {
   private final JobRepository repository;
 
   @Bean
-  public Job embeddingJob(
-      Step initKeysetStep,
-      Step embeddingStep
-  ) {
+  public Job embeddingJob(Step initKeysetStep, Step embeddingStep) {
     return new JobBuilder("embeddingJob", repository)
         .start(initKeysetStep)
         .next(embeddingStep)
-        .on("NOOP").end()
+        .on("NOOP")
+        .end()
         .from(embeddingStep)
-        .on("*").to(embeddingStep)
+        .on("*")
+        .to(embeddingStep)
         .end()
         .build();
   }

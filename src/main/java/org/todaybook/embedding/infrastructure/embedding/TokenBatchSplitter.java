@@ -16,4 +16,3 @@ public class TokenBatchSplitter {
     return batchingStrategy.batch(documents);
   }
 }
-

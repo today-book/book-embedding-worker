@@ -19,8 +19,7 @@ public record BookKeyset(UUID bookId, LocalDateTime updatedAt) {
   public static BookKeyset initial() {
     return new BookKeyset(
         UUID.fromString("00000000-0000-0000-0000-000000000000"),
-        LocalDateTime.of(1970, 1, 1, 0, 0, 0)
-    );
+        LocalDateTime.of(1970, 1, 1, 0, 0, 0));
   }
 
   public static boolean exists(ExecutionContext context) {
@@ -30,8 +29,7 @@ public record BookKeyset(UUID bookId, LocalDateTime updatedAt) {
   public static BookKeyset from(ExecutionContext context) {
     return BookKeyset.of(
         UUID.fromString(context.getString(KEY_BOOK_ID)),
-        (LocalDateTime) context.get(KEY_UPDATED_AT)
-    );
+        (LocalDateTime) context.get(KEY_UPDATED_AT));
   }
 
   public void put(ExecutionContext context) {

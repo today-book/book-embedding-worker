@@ -8,12 +8,9 @@ import org.springframework.ai.document.Document;
 import org.todaybook.embedding.domain.Book;
 
 public record EmbeddingDocument(
-    UUID id,
-    String content,
-    Map<String, Object> metadata,
-    float[] embedding
-) {
-  public static EmbeddingDocument of(UUID id, String content, Map<String, Object> metadata, float[] vector) {
+    UUID id, String content, Map<String, Object> metadata, float[] embedding) {
+  public static EmbeddingDocument of(
+      UUID id, String content, Map<String, Object> metadata, float[] vector) {
     return new EmbeddingDocument(id, content, metadata, vector);
   }
 
@@ -22,8 +19,7 @@ public record EmbeddingDocument(
         UUID.fromString(document.getId()),
         document.getFormattedContent(),
         document.getMetadata(),
-        vector
-    );
+        vector);
   }
 
   public static String buildContent(Book book) {
@@ -32,7 +28,8 @@ public record EmbeddingDocument(
     builder.append("author: ").append(book.author()).append("\n");
     builder.append("description: ").append(book.description()).append("\n");
 
-    String categories = book.categories() != null ? java.lang.String.join(",", book.categories()) : "";
+    String categories =
+        book.categories() != null ? java.lang.String.join(",", book.categories()) : "";
     builder.append("categories: ").append(categories).append("\n");
 
     return builder.toString();
