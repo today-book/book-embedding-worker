@@ -2,10 +2,10 @@ package org.todaybook.embedding.infrastructure.opensearch.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.ai.document.Document;
+import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 
 public interface OpensearchQueryService {
-  Optional<Document> getDocumentById(String id);
+  Optional<EmbeddingDocument> getDocumentById(String id);
 
-  List<Document> getDocumentByIds(List<String> ids);
+  List<EmbeddingDocument> getDocumentByIds(List<String> ids);
 }

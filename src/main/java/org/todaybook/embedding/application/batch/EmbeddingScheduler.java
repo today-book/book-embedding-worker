@@ -12,7 +12,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.application.batch.service.JobService;
+import org.todaybook.embedding.infrastructure.batch.service.JobService;
 
 @Slf4j
 @Component
@@ -44,7 +44,7 @@ public class EmbeddingScheduler {
     jobService.terminate(embeddingJob.getName());
   }
 
-  @Scheduled(cron = "0 0 4 * * *")
+  @Scheduled(cron = "0 4 17 * * *")
   public void run() {
     try {
       if (jobService.isRunning(embeddingJob.getName())) {
@@ -53,16 +53,13 @@ public class EmbeddingScheduler {
       }
 
       JobParameters params =
-          new JobParametersBuilder()
-              .addLong("run", System.currentTimeMillis())
-              .addLong("chunkSize", 50L)
-              .toJobParameters();
-
-      jobLauncher.run(embeddingJob, params);
+          new JobParametersBuilder().addLong("run", System.currentTimeMillis()).toJobParameters();
 
       log.info("[TODAY-BOOK] 임베딩 작업을 시작합니다. (run={})", params.getLong("run"));
+
+      jobLauncher.run(embeddingJob, params);
     } catch (Exception e) {
-      log.error("[TODAY-BOOK] 임베딩 작업에 실패하였습니다. (message={})", e.getMessage());
+      log.error("[TODAY-BOOK] 오류가 발생하였습니다. 배치를 종료합니다.", e);
     }
   }
 }
