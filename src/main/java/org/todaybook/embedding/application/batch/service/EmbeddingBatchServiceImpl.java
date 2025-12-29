@@ -1,6 +1,7 @@
 package org.todaybook.embedding.application.batch.service;
 
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+import io.grpc.StatusRuntimeException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -9,14 +10,16 @@ import org.springframework.ai.document.Document;
 import org.springframework.stereotype.Service;
 import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 import org.todaybook.embedding.domain.Book;
-import org.todaybook.embedding.infrastructure.embedding.TokenBatchSplitter;
+import org.todaybook.embedding.infrastructure.embedding.strategy.TokenBatchStrategy;
+import org.todaybook.embedding.infrastructure.embedding.strategy.TokenSingleStrategy;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
 
-  private final TokenBatchSplitter tokenBatchSplitter;
+  private final TokenSingleStrategy tokenSingleStrategy;
+  private final TokenBatchStrategy tokenBatchStrategy;
 
   private final EmbeddingService embeddingService;
   private final VectorStoreService vectorStoreService;
@@ -27,7 +30,7 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
 
     log.info("[TODAY-BOOK] 임베딩 시작 - 대상 도서 {}권", books.size());
 
-    List<Document> documents =
+    List<Document> source =
         books.stream()
             .map(
                 book ->
@@ -37,7 +40,9 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
                         EmbeddingDocument.buildMetadata(book)))
             .toList();
 
-    List<List<Document>> batches = tokenBatchSplitter.split(documents);
+    List<Document> documents = tokenSingleStrategy.filter(source);
+
+    List<List<Document>> batches = tokenBatchStrategy.split(documents);
 
     log.debug("[TODAY-BOOK] 토큰 기준 배치 분할 - {} batches", batches.size());
 
@@ -56,10 +61,19 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
           result.add(EmbeddingDocument.from(batch.get(i), embeddings.get(i)));
         }
       } catch (IllegalArgumentException e) {
-        log.warn("[TODAY-BOOK] 임베딩에 실패하여 스킵하고 이어서 배치를 진행합니다.");
-        log.debug("[TODAY-BOOK] Embedding batch skip (documents={})", batch);
+        log.warn("[TODAY-BOOK] Invalid document skipped. {}", e.getMessage());
+      } catch (IllegalStateException e) {
+        log.warn("[TODAY-BOOK] Concurrency limit reached.");
+        throw e;
       } catch (RequestNotPermitted e) {
-        log.warn("[TODAY-BOOK] Rate limit reached");
+        log.warn("[TODAY-BOOK] Rate limit reached.");
+        throw e;
+      } catch (StatusRuntimeException e) {
+        log.error("[TODAY-BOOK] gRPC error occurred. status={}", e.getStatus(), e);
+        throw e;
+      } catch (Exception e) {
+        log.error("[TODAY-BOOK] Unexpected embedding error.", e);
+        throw e;
       }
     }
 

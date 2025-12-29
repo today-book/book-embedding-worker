@@ -21,12 +21,6 @@ public class EmbeddingJobConfig {
     return new JobBuilder("embeddingJob", repository)
         .start(initKeysetStep)
         .next(embeddingStep)
-        .on("NOOP")
-        .end()
-        .from(embeddingStep)
-        .on("*")
-        .to(embeddingStep)
-        .end()
         .build();
   }
 }

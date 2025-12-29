@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.embedding;
+package org.todaybook.embedding.infrastructure.embedding.strategy;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TokenBatchSplitter {
+public class TokenBatchStrategy {
 
   private final BatchingStrategy batchingStrategy;
 
