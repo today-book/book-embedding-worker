@@ -18,12 +18,13 @@ spring:
       data-source-properties:
         ApplicationName: book-embedding-worker-${HOSTNAME:localhost}
 
+  cloud:
+    gcp:
+      project-id: ${GCP_PROJECT_ID}
+      location: us-central1
+      model: gemini-embedding-001
+
   ai:
-    vertex:
-      ai:
-        embedding:
-          project-id: ${GCP_PROJECT_ID}
-          location: us-central1
     vectorstore:
       opensearch:
         uris: ${OPENSEARCH_URIS}
