@@ -1,13 +1,17 @@
 package org.todaybook.embedding.application.batch.service;
 
+import com.google.api.gax.rpc.InvalidArgumentException;
+import com.google.api.gax.rpc.ResourceExhaustedException;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.grpc.StatusRuntimeException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.stereotype.Service;
+import org.todaybook.embedding.application.batch.EmbeddingExecutorGate;
 import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 import org.todaybook.embedding.domain.Book;
 import org.todaybook.embedding.infrastructure.embedding.strategy.TokenBatchStrategy;
@@ -21,7 +25,7 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
   private final TokenSingleStrategy tokenSingleStrategy;
   private final TokenBatchStrategy tokenBatchStrategy;
 
-  private final EmbeddingService embeddingService;
+  private final EmbeddingExecutorGate embeddingExecutorGate;
   private final VectorStoreService vectorStoreService;
 
   @Override
@@ -55,22 +59,15 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
             "[TODAY-BOOK] Embedding batch {}/{} - {} docs", index++, batches.size(), batch.size());
 
         List<float[]> embeddings =
-            embeddingService.embed(batch.stream().map(Document::getFormattedContent).toList());
+            embeddingExecutorGate.embed(batch.stream().map(Document::getFormattedContent).toList());
 
         for (int i = 0; i < embeddings.size(); i++) {
           result.add(EmbeddingDocument.from(batch.get(i), embeddings.get(i)));
         }
       } catch (IllegalArgumentException e) {
         log.warn("[TODAY-BOOK] Invalid document skipped. {}", e.getMessage());
-      } catch (IllegalStateException e) {
-        log.warn("[TODAY-BOOK] Concurrency limit reached.");
-        throw e;
-      } catch (RequestNotPermitted e) {
-        log.warn("[TODAY-BOOK] Rate limit reached.");
-        throw e;
-      } catch (StatusRuntimeException e) {
-        log.error("[TODAY-BOOK] gRPC error occurred. status={}", e.getStatus(), e);
-        throw e;
+      } catch (CompletionException e) {
+        handleExecutorException(e);
       } catch (Exception e) {
         log.error("[TODAY-BOOK] Unexpected embedding error.", e);
         throw e;
@@ -89,5 +86,32 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
       log.error("[TODAY-BOOK] VectorDB 저장에 실패하였습니다. Job을 중단합니다.", e);
       throw e;
     }
+  }
+
+  private void handleExecutorException(CompletionException e) {
+    Throwable cause = e.getCause();
+
+    if (cause instanceof RequestNotPermitted ex) {
+      log.error("[TODAY-BOOK] RateLimiter violated");
+      throw ex;
+    }
+
+    if (cause instanceof ResourceExhaustedException ex) {
+      log.error("[TODAY-BOOK] API quota exceeded despite limiter");
+      throw ex;
+    }
+
+    if (cause instanceof InvalidArgumentException ex) {
+      log.error("[TODAY-BOOK] Token validation failed");
+      throw ex;
+    }
+
+    if (cause instanceof StatusRuntimeException ex) {
+      log.error("[TODAY-BOOK] gRPC fatal error. status={}", ex.getStatus(), ex);
+      throw ex;
+    }
+
+    log.error("[TODAY-BOOK] Unexpected executor error", e);
+    throw e;
   }
 }

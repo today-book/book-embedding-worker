@@ -42,7 +42,7 @@ resilience4j:
   ratelimiter:
     instances:
       embeddingRateLimiter:
-        limitForPeriod: 5       # 주기 당 허용 횟수
+        limitForPeriod: 4       # 주기 당 허용 횟수
         limitRefreshPeriod: 1m  # 주기 = 1분
         timeoutDuration: 1m
 

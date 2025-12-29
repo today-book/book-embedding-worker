@@ -1,26 +1,24 @@
-package org.todaybook.embedding.infrastructure.embedding.service;
+package org.todaybook.embedding.application.batch;
 
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.todaybook.embedding.application.batch.service.EmbeddingService;
 import org.todaybook.embedding.infrastructure.embedding.limiter.ConcurrencyLimiter;
 import org.todaybook.embedding.infrastructure.embedding.limiter.TokenEstimateLimiter;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class EmbeddingServiceImpl implements EmbeddingService {
+public class EmbeddingExecutorGate {
 
   private final TokenEstimateLimiter tokenEstimateLimiter;
   private final ConcurrencyLimiter concurrencyLimiter;
 
-  private final EmbeddingModel model;
+  private final EmbeddingService embeddingService;
 
-  @Override
-  @RateLimiter(name = "embeddingRateLimiter")
   public List<float[]> embed(List<String> texts) {
-    return model.embed(texts);
+    texts.forEach(tokenEstimateLimiter::check);
+
+    return concurrencyLimiter.execute(() -> embeddingService.embed(texts));
   }
 }
