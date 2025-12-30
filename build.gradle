@@ -63,7 +63,7 @@ dependencies {
     testImplementation "org.opensearch:opensearch-testcontainers:2.0.2"
 
     // spring ai - embedding
-    implementation 'org.springframework.ai:spring-ai-starter-model-vertex-ai-embedding'
+    implementation 'org.springframework.ai:spring-ai-vertex-ai-embedding'
     implementation 'org.springframework.ai:spring-ai-starter-vector-store-opensearch'
 
     // spring batch

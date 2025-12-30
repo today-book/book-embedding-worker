@@ -18,12 +18,13 @@ spring:
       data-source-properties:
         ApplicationName: book-embedding-worker-${HOSTNAME:localhost}
 
+  cloud:
+    gcp:
+      project-id: ${GCP_PROJECT_ID}
+      location: us-central1
+      model: gemini-embedding-001
+
   ai:
-    vertex:
-      ai:
-        embedding:
-          project-id: ${GCP_PROJECT_ID}
-          location: us-central1
     vectorstore:
       opensearch:
         uris: ${OPENSEARCH_URIS}
@@ -41,9 +42,9 @@ resilience4j:
   ratelimiter:
     instances:
       embeddingRateLimiter:
-        limitForPeriod: 5       # 주기 당 허용 횟수
-        limitRefreshPeriod: 1m  # 주기 = 1분
-        timeoutDuration: 1m
+        limitForPeriod: 1       # 주기 당 허용 횟수
+        limitRefreshPeriod: 12s  # 주기 = 1분
+        timeoutDuration: 12s
 
 management:
   endpoints:

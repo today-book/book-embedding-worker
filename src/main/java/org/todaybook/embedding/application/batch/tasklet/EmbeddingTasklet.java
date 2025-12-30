@@ -47,6 +47,6 @@ public class EmbeddingTasklet implements Tasklet {
 
     log.info("[TODAY-BOOK] 임베딩 저장 완료 - keyset={}", next);
 
-    return RepeatStatus.FINISHED;
+    return RepeatStatus.CONTINUABLE;
   }
 }

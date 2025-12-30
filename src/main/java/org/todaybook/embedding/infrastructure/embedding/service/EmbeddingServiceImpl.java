@@ -15,13 +15,7 @@ public class EmbeddingServiceImpl implements EmbeddingService {
 
   @Override
   @RateLimiter(name = "embeddingRateLimiter")
-  public float[] embed(String content) {
-    return model.embed(content);
-  }
-
-  @Override
-  @RateLimiter(name = "embeddingRateLimiter")
-  public List<float[]> embed(List<String> contents) {
-    return model.embed(contents);
+  public List<float[]> embed(List<String> texts) {
+    return model.embed(texts);
   }
 }

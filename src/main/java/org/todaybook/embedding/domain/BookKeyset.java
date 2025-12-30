@@ -6,8 +6,12 @@ import org.springframework.batch.item.ExecutionContext;
 
 public record BookKeyset(UUID bookId, LocalDateTime updatedAt) {
 
-  public static final String KEY_BOOK_ID = "keyset.bookId";
-  public static final String KEY_UPDATED_AT = "keyset.updatedAt";
+  private static final String KEY_BOOK_ID = "keyset.bookId";
+  private static final String KEY_UPDATED_AT = "keyset.updatedAt";
+
+  private static final UUID INITIAL_BOOK_ID =
+      UUID.fromString("00000000-0000-0000-0000-000000000000");
+  private static final LocalDateTime INITIAL_UPDATED_AT = LocalDateTime.of(1970, 1, 1, 0, 0);
 
   public static BookKeyset of(UUID bookId, LocalDateTime updatedAt) {
     if (bookId == null || updatedAt == null) {
@@ -17,22 +21,31 @@ public record BookKeyset(UUID bookId, LocalDateTime updatedAt) {
   }
 
   public static BookKeyset initial() {
-    return new BookKeyset(
-        UUID.fromString("00000000-0000-0000-0000-000000000000"),
-        LocalDateTime.of(1970, 1, 1, 0, 0, 0));
+    return new BookKeyset(INITIAL_BOOK_ID, INITIAL_UPDATED_AT);
   }
 
-  public static boolean exists(ExecutionContext context) {
-    return context.containsKey(KEY_BOOK_ID) && context.containsKey(KEY_UPDATED_AT);
+  public boolean isInitial() {
+    return INITIAL_BOOK_ID.equals(bookId) && INITIAL_UPDATED_AT.equals(updatedAt);
   }
 
   public static BookKeyset from(ExecutionContext context) {
-    return BookKeyset.of(
-        UUID.fromString(context.getString(KEY_BOOK_ID)),
-        (LocalDateTime) context.get(KEY_UPDATED_AT));
+    if (context == null) {
+      return initial();
+    }
+
+    Object bookId = context.get(KEY_BOOK_ID);
+    Object updatedAt = context.get(KEY_UPDATED_AT);
+
+    if (!(bookId instanceof String) || !(updatedAt instanceof LocalDateTime)) {
+      return initial();
+    }
+
+    return BookKeyset.of(UUID.fromString((String) bookId), (LocalDateTime) updatedAt);
   }
 
   public void put(ExecutionContext context) {
+    if (isInitial()) return;
+
     context.put(KEY_BOOK_ID, bookId.toString());
     context.put(KEY_UPDATED_AT, updatedAt);
   }
