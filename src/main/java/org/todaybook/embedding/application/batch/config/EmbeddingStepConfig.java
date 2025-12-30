@@ -8,20 +8,12 @@ import org.springframework.batch.support.transaction.ResourcelessTransactionMana
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.todaybook.embedding.application.batch.tasklet.EmbeddingTasklet;
-import org.todaybook.embedding.application.batch.tasklet.KeysetInitializeTasklet;
 
 @Configuration
 @RequiredArgsConstructor
 public class EmbeddingStepConfig {
 
   private final JobRepository repository;
-
-  @Bean
-  public Step initKeysetStep(KeysetInitializeTasklet tasklet) {
-    return new StepBuilder("initKeyset", repository)
-        .tasklet(tasklet, new ResourcelessTransactionManager())
-        .build();
-  }
 
   @Bean
   public Step embeddingStep(EmbeddingTasklet tasklet) {

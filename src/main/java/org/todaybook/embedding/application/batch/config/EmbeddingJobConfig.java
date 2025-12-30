@@ -18,11 +18,9 @@ public class EmbeddingJobConfig {
   private final JobRepository repository;
 
   @Bean
-  public Job embeddingJob(
-      Step initKeysetStep, Step embeddingStep, EmbeddingJobListener jobListener) {
+  public Job embeddingJob(Step embeddingStep, EmbeddingJobListener jobListener) {
     return new JobBuilder("embeddingJob", repository)
-        .start(initKeysetStep)
-        .next(embeddingStep)
+        .start(embeddingStep)
         .listener(jobListener)
         .build();
   }

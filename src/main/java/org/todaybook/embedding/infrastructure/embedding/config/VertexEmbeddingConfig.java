@@ -2,7 +2,10 @@ package org.todaybook.embedding.infrastructure.embedding.config;
 
 import com.google.api.gax.rpc.InvalidArgumentException;
 import com.google.api.gax.rpc.ResourceExhaustedException;
+import com.knuddels.jtokkit.api.EncodingType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.embedding.BatchingStrategy;
+import org.springframework.ai.embedding.TokenCountBatchingStrategy;
 import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingOptions;
@@ -42,6 +45,11 @@ public class VertexEmbeddingConfig {
         .notRetryOn(ResourceExhaustedException.class)
         .maxAttempts(1)
         .build();
+  }
+
+  @Bean
+  public BatchingStrategy embeddingBatchingStrategy() {
+    return new TokenCountBatchingStrategy(EncodingType.CL100K_BASE, 7000, 0.2);
   }
 
   @Bean

@@ -10,12 +10,12 @@ import java.util.concurrent.CompletionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.BatchingStrategy;
 import org.springframework.stereotype.Service;
 import org.todaybook.embedding.application.batch.EmbeddingExecutorGate;
 import org.todaybook.embedding.application.batch.dto.EmbeddingDocument;
 import org.todaybook.embedding.domain.Book;
-import org.todaybook.embedding.infrastructure.embedding.strategy.TokenBatchStrategy;
-import org.todaybook.embedding.infrastructure.embedding.strategy.TokenSingleStrategy;
+import org.todaybook.embedding.infrastructure.embedding.TokenSingleStrategy;
 
 @Slf4j
 @Service
@@ -23,7 +23,7 @@ import org.todaybook.embedding.infrastructure.embedding.strategy.TokenSingleStra
 public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
 
   private final TokenSingleStrategy tokenSingleStrategy;
-  private final TokenBatchStrategy tokenBatchStrategy;
+  private final BatchingStrategy batchingStrategy;
 
   private final EmbeddingExecutorGate embeddingExecutorGate;
   private final VectorStoreService vectorStoreService;
@@ -46,23 +46,23 @@ public class EmbeddingBatchServiceImpl implements EmbeddingBatchService {
 
     List<Document> documents = tokenSingleStrategy.filter(source);
 
-    List<List<Document>> batches = tokenBatchStrategy.split(documents);
+    List<List<Document>> batch = batchingStrategy.batch(documents);
 
-    log.debug("[TODAY-BOOK] 토큰 기준 배치 분할 - {} batches", batches.size());
+    log.debug("[TODAY-BOOK] 토큰 기준 배치 분할 - {} batches", batch.size());
 
     List<EmbeddingDocument> result = new ArrayList<>();
 
     int index = 1;
-    for (List<Document> batch : batches) {
+    for (List<Document> subBatch : batch) {
       try {
         log.debug(
-            "[TODAY-BOOK] Embedding batch {}/{} - {} docs", index++, batches.size(), batch.size());
+            "[TODAY-BOOK] Embedding batch {}/{} - {} docs", index++, batch.size(), subBatch.size());
 
         List<float[]> embeddings =
-            embeddingExecutorGate.embed(batch.stream().map(Document::getFormattedContent).toList());
+            embeddingExecutorGate.embed(subBatch.stream().map(Document::getText).toList());
 
-        for (int i = 0; i < embeddings.size(); i++) {
-          result.add(EmbeddingDocument.from(batch.get(i), embeddings.get(i)));
+        for (int i = 0; i < subBatch.size(); i++) {
+          result.add(EmbeddingDocument.from(subBatch.get(i), embeddings.get(i)));
         }
       } catch (IllegalArgumentException e) {
         log.warn("[TODAY-BOOK] Invalid document skipped. {}", e.getMessage());

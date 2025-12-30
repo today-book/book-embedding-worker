@@ -12,7 +12,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.infrastructure.batch.service.JobService;
+import org.todaybook.embedding.application.batch.service.JobService;
 
 @Slf4j
 @Component
@@ -44,7 +44,7 @@ public class EmbeddingScheduler {
     jobService.terminate(embeddingJob.getName());
   }
 
-  @Scheduled(cron = "0 4 17 * * *")
+  @Scheduled(cron = "0 0 4 * * *")
   public void run() {
     try {
       if (jobService.isRunning(embeddingJob.getName())) {

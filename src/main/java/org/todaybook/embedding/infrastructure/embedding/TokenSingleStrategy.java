@@ -1,4 +1,4 @@
-package org.todaybook.embedding.infrastructure.embedding.strategy;
+package org.todaybook.embedding.infrastructure.embedding;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tokenizer.TokenCountEstimator;
 import org.springframework.stereotype.Component;
-import org.todaybook.embedding.infrastructure.embedding.TokenLimits;
 
 @Slf4j
 @Component
