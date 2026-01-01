@@ -29,7 +29,7 @@ spring:
   cloud:
     gcp:
       project-id: ${GCP_PROJECT_ID}
-      location: us-central1
+      location: global
       model: gemini-embedding-001
 
   ai:
